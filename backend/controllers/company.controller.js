@@ -1,4 +1,6 @@
 import { Company } from '../models/company.model.js';
+import cloudinary from '../utils/cloudinary.js';
+import getDataUri from '../utils/datauri.js';
 
 // REGISTER COMPANY
 const registerCompany = async (req, res) => {
@@ -104,13 +106,19 @@ const getCompanyById = async (req, res) => {
 const updateCompany = async (req, res) => {
     try {
         const { name, description, website, location } = req.body;
+        const file = req.file;
 
+        const fileUri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        const logo = cloudResponse.secure_url;
+        
         const updateData = {};
 
         if (name) updateData.name = name;
         if (description) updateData.description = description;
         if (website) updateData.website = website;
         if (location) updateData.location = location;
+        if (logo) updateData.logo = logo;
 
         if (Object.keys(updateData).length === 0) {
             return res.status(400).json({
@@ -127,14 +135,6 @@ const updateCompany = async (req, res) => {
                 success: false
             });
         }
-
-        // 🔐 ownership check
-        // if (company.createdBy.toString() !== req.id) {
-        //     return res.status(403).json({
-        //         message: "Unauthorized",
-        //         success: false
-        //     });
-        // }
 
         const updatedCompany = await Company.findByIdAndUpdate(
             req.params.id,

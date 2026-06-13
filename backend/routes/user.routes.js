@@ -7,6 +7,6 @@ const router = express.Router();
 router.post("/register",singleUpload, userController.registerUser);
 router.post("/login", userController.loginUser);
 router.get("/logout", userController.logoutUser);
-router.post("/profile/update",isAuthenticated, userController.updateProfile);
+router.post("/profile/update",isAuthenticated, singleUpload ,userController.updateProfile);
 
 export default router;
