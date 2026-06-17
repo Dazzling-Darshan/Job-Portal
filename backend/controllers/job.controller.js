@@ -128,12 +128,15 @@ const getAdminJobs = async (req, res) => {
   try {
     const recruiterId = req.id;
 
-    const jobs = await Job.find({ createdBy: recruiterId });
+    const jobs = await Job.find({ createdBy: recruiterId }).populate({
+      path: "company"
+    });
 
     if (jobs.length === 0) {
-      return res.status(404).json({
+      return res.status(200).json({
         message: "No jobs found",
-        success: false,
+        success: true,
+        jobs: []
       });
     }
 

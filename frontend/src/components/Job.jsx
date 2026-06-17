@@ -33,7 +33,7 @@ const Job = ({job}) => {
       <div className="flex items-center gap-3 my-4">
         <Button className="p-0 rounded-full overflow-hidden hover:scale-105 transition">
           <Avatar className="w-12 h-12 border">
-            <AvatarImage src="https://img.freepik.com/premium-psd/best-company-logo-transparent-background_1101614-58913.jpg" />
+            <AvatarImage src={job?.company?.logo} />
           </Avatar>
         </Button>
 

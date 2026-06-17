@@ -5,7 +5,11 @@ const router = express.Router();
 
 router.post("/post",isAuthenticated, jobController.postJob);
 router.get("/get",isAuthenticated, jobController.getAllJobs);
-router.get("/get/adminJobs", isAuthenticated,jobController.getAdminJobs);
+router.get("/get/adminjobs", isAuthenticated,jobController.getAdminJobs);
 router.get("/get/:id",isAuthenticated, jobController.getJobById);
+
+router.get("/test", (req, res) => {
+    res.send("Job route working");
+});
 
 export default router; 
